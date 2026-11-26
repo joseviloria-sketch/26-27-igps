@@ -1,0 +1,196 @@
+@startuml
+
+object "admin : Usuario" as admin
+object "editor : Usuario" as editor
+object "viewer : Usuario" as viewer
+
+admin : id_usuario = "1234567890"
+admin : name = "Admin"
+admin : is_admin = true
+
+@startuml
+
+object "ana: Cliente" as ana
+object "pedido01 : Pedido" as pedido01
+
+ana "1" -- "0..*" pedido01 : realiza
+
+@startuml
+
+object "mecanico1 : Mecanico" as mecanico1
+object "herramienta1 : Herramienta" as herramienta1
+
+mecanico1 --> herramienta1 : utiliza
+
+@startuml
+
+object Rueda
+object Carro
+
+Carro *-- Rueda : contiene
+
+@startuml
+
+object algo1
+object algo2
+algo1 o-- algo2
+
+@startuml
+
+object "ana : Cliente" as ana {
+    nombre = "Ana"
+    email = "ana@example.com"
+}
+
+object "pedido01 : Pedido" as pedido01 {
+    numero = "P-001"
+    estado = "Preparado"
+}
+
+object "pedido02 : Pedido" as pedido02 {
+    numero = "P-002"
+    estado = "Pendiente"
+}
+
+object "linea01 : LineaPedido" as linea01 {
+    producto = "Teclado"
+    cantidad = 1
+}
+
+object "linea02 : LineaPedido" as linea02 {
+    producto = "Ratón"
+    cantidad = 2
+}
+
+ana -- pedido01 : realiza
+ana -- pedido02 : realiza
+
+pedido01 *-- linea01 : contiene
+pedido02 *-- linea02 : contiene
+
+@startuml
+
+class CuentaBancaria
+class CuentaAhorros
+class CuentaInversiones
+
+CuentaBancaria <|-- CuentaAhorros
+CuentaBancaria <|-- CuentaInversiones
+
+@startuml
+
+interface Vehiculo {
+    + run()
+}
+
+class Coche {
+    + run()
+    - numRuedas = 4
+}
+
+class Barco {
+    + run()
+    - tieneVelas = true
+}
+
+class Avion {
+    + run()
+    - altitud = 10000
+}
+
+Vehiculo <|.. Coche
+Vehiculo <|.. Barco
+Vehiculo <|.. Avion
+
+@startuml
+
+left to right direction
+
+rectangle VistaAdministracion{
+(Crear cuentas) as cc
+(Ver cuentas) as vc
+(Modificar cuentas) as mc
+(Eliminar cuentas) as ec
+}
+
+package UsuariosEmpresa{
+:Admin: as admin
+:User: as user
+}
+
+package UsuariosGobierno{
+:User Gov: as usergov
+}
+
+admin --> cc
+admin --> vc : "Puede ver id"
+admin --> mc
+admin --> ec
+
+user --> vc : "Con menos datos"
+
+@startuml
+
+left to right direction
+
+actor Cliente as cli
+actor Cocinero as chef
+actor "Crítico gastronómico" as critico
+
+rectangle "Sistema del restaurante" {
+
+    package "Gestión de pedidos" {
+        usecase "Consultar menú" as UC1
+        usecase "Realizar pedido" as UC2
+        usecase "Pagar pedido" as UC3
+    }
+
+    package "Gestión interna" {
+        usecase "Consultar pedidos" as UC4
+        usecase "Actualizar estado del pedido" as UC5
+    }
+
+    usecase "Publicar reseña" as UC6
+}
+
+cli --> UC1
+cli --> UC2
+cli --> UC3
+
+chef --> UC4
+chef --> UC5
+
+critico --> UC6
+
+@startuml
+
+actor Cliente
+
+usecase "Realizar pedido" as Pedido
+usecase "Validar disponibilidad" as Validar
+
+Cliente --> Pedido
+
+Pedido .> Validar : <<include>>
+
+@startuml
+
+actor Cliente
+
+usecase "Realizar pedido" as Pedido
+usecase "Aplicar cupón de descuento" as Cupon
+
+Cliente --> Pedido
+
+Cupon .> Pedido : <<extend>>
+
+@startuml
+
+actor Usuario
+
+Usuario -left-> (Caso a la izquierda)
+Usuario -right-> (Caso a la derecha)
+Usuario -up-> (Caso arriba)
+Usuario -down-> (Caso abajo)
+
+@enduml
